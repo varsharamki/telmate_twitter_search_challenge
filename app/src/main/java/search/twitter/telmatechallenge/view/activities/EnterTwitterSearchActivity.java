@@ -1,8 +1,12 @@
 package search.twitter.telmatechallenge.view.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +16,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,16 +30,24 @@ import search.twitter.telmatechallenge.model.data.SearchQueryResponse;
 import search.twitter.telmatechallenge.model.data.TweetsSearchQuery;
 import search.twitter.telmatechallenge.model.network.TweetSearchClient;
 import search.twitter.telmatechallenge.model.network.TweetSearchService;
+import search.twitter.telmatechallenge.presenter.implementations.TwitterSeachQueryPresenterImpl;
+import search.twitter.telmatechallenge.view.interfaces.TwitterAccessTokenView;
 
 
-public class EnterTwitterSearchActivity extends AppCompatActivity {
+public class EnterTwitterSearchActivity extends AppCompatActivity implements TwitterAccessTokenView{
     @InjectView(R.id.activity_enter_twitter_search)
     RelativeLayout layout;
     @InjectView(R.id.text1)
     TextView textView;
     @InjectView(R.id.text2)
     TextView textView1;
-private ArrayList<TweetsSearchQuery> searchTweets=new ArrayList<>();
+    @InjectView(R.id.editText)
+    EditText editText;
+    @InjectView(R.id.button)
+    Button button;
+
+private TwitterAccessTokenView view;
+    private TwitterSeachQueryPresenterImpl impl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +55,10 @@ private ArrayList<TweetsSearchQuery> searchTweets=new ArrayList<>();
         setContentView(R.layout.activity_enter_twitter_search);
         ButterKnife.inject(this);
         saveKeySecret();
-        getAccessToken();
+        view=this;
+        impl=new TwitterSeachQueryPresenterImpl(this,view);
 
+/*
         AuthRequestBuilder authRequestBuilder = new AuthRequestBuilder(this);
 
         Retrofit retrofit = TweetSearchClient.getRetrofitInstance(AuthConstants.SEARCH_TWEET_BASE_URL).client(authRequestBuilder.buildSearchTweetRequest()).build();
@@ -54,11 +69,6 @@ private ArrayList<TweetsSearchQuery> searchTweets=new ArrayList<>();
             @Override
             public void onResponse(Call<SearchQueryResponse> call, Response<SearchQueryResponse> response) {
 SearchQueryResponse searchResponse=response.body();
-                searchTweets= searchResponse.getTweetsSearchQueries();
-for(TweetsSearchQuery tweet:searchTweets){
-    textView1.setText(textView1.getText()+" \n "+tweet.toString());
-    Log.d("TELMATE======",tweet.toString());
-}
 
                 Log.d("TELMATE======"," TWEETS "+ call.request().toString() + "  " + response.code()+" "+searchTweets.size() );
 
@@ -70,10 +80,29 @@ for(TweetsSearchQuery tweet:searchTweets){
                 Log.d("TELMATE======"," TWEETSFAil "+t.getMessage());
             }
         });
-
+*/
 
     }
 
+@OnClick(R.id.button)
+public void buttonClick(){
+    Toast.makeText(getApplicationContext(), " Yahooooooooooooooooooooo ", Toast.LENGTH_LONG).show();
+if(!TextUtils.isEmpty(editText.getText().toString())){
+    // need to do more validations on the search term <10 words ?
+    if(editText.getText().toString().split(" ").length<=10){
+        impl.sendSearchQuery(editText.getText().toString());
+    }
+    Intent intent=new Intent(EnterTwitterSearchActivity.this,DisplayTwitterSearchResultsActivity.class);
+    startActivity(intent);
+}
+}
+
+    @Override
+    public void getBearerAccessToken(BearerTokenResponse bearerTokenResponse) {
+if(bearerTokenResponse!=null){
+    saveAccessToken(bearerTokenResponse);
+}
+    }
 
     private void getAccessToken() {
 
@@ -106,15 +135,16 @@ for(TweetsSearchQuery tweet:searchTweets){
         });
     }
 
-    private void saveKeySecret() {
-        AuthenticationPreferences.getAuthInstance(getApplicationContext()).putAuthString(AuthenticationPreferences.AuthKey.CONSUMER_KEY, AuthConstants.CONSUMER_KEY);
-        AuthenticationPreferences.getAuthInstance(getApplicationContext()).putAuthString(AuthenticationPreferences.AuthKey.CONSUMER_SECRET, AuthConstants.CONSUMER_SECRET);
-
-    }
 
     private void saveAccessToken(BearerTokenResponse response) {
         AuthenticationPreferences.getAuthInstance(getApplicationContext()).putAuthString(AuthenticationPreferences.AuthKey.BEARER_TOKEN_TYPE, response.getToken_type());
         AuthenticationPreferences.getAuthInstance(getApplicationContext()).putAuthString(AuthenticationPreferences.AuthKey.BEARER_TOKEN, response.getAccess_token());
 
     }
+    private void saveKeySecret() {
+        AuthenticationPreferences.getAuthInstance(getApplicationContext()).putAuthString(AuthenticationPreferences.AuthKey.CONSUMER_KEY, AuthConstants.CONSUMER_KEY);
+        AuthenticationPreferences.getAuthInstance(getApplicationContext()).putAuthString(AuthenticationPreferences.AuthKey.CONSUMER_SECRET, AuthConstants.CONSUMER_SECRET);
+
+    }
+
 }

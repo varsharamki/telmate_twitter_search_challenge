@@ -104,22 +104,5 @@ public class AuthRequestBuilder {
     }
 
 
-    public String customSearchQueryURL(String query,int count) {
-        String url = "";
-
-        try {
-            url = String.format(Locale.ENGLISH,"%s?q=%s&result_type=mixed&count=%d",
-                    AuthConstants.TWEETS,
-                    URLEncoder.encode(query, "UTF-8"),
-                    count
-            );
-        } catch (UnsupportedEncodingException exception) {
-
-        } catch (Exception e) {
-
-        }
-
-        return url;
-    }
 
 }
