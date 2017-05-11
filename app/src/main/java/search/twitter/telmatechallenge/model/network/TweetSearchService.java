@@ -1,6 +1,8 @@
 package search.twitter.telmatechallenge.model.network;
 
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

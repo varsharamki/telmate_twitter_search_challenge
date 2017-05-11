@@ -7,6 +7,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit2.Call;
@@ -19,6 +22,7 @@ import search.twitter.telmatechallenge.model.auth.AuthRequestBuilder;
 import search.twitter.telmatechallenge.model.auth.AuthenticationPreferences;
 import search.twitter.telmatechallenge.model.data.BearerTokenResponse;
 import search.twitter.telmatechallenge.model.data.SearchQueryResponse;
+import search.twitter.telmatechallenge.model.data.TweetsSearchQuery;
 import search.twitter.telmatechallenge.model.network.TweetSearchClient;
 import search.twitter.telmatechallenge.model.network.TweetSearchService;
 
@@ -30,6 +34,7 @@ public class EnterTwitterSearchActivity extends AppCompatActivity {
     TextView textView;
     @InjectView(R.id.text2)
     TextView textView1;
+private ArrayList<TweetsSearchQuery> searchTweets=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +43,31 @@ public class EnterTwitterSearchActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         saveKeySecret();
         getAccessToken();
+
         AuthRequestBuilder authRequestBuilder = new AuthRequestBuilder(this);
 
         Retrofit retrofit = TweetSearchClient.getRetrofitInstance(AuthConstants.SEARCH_TWEET_BASE_URL).client(authRequestBuilder.buildSearchTweetRequest()).build();
         TweetSearchService service = retrofit.create(TweetSearchService.class);
-        Call<SearchQueryResponse> call = service.getSearchQueryResponse(authRequestBuilder.customSearchQueryURL("help",10));
+        Call<SearchQueryResponse> call = service.getSearchQueryResponse(authRequestBuilder.customSearchQueryURL("god",10));
         call.enqueue(new Callback<SearchQueryResponse>() {
 
             @Override
             public void onResponse(Call<SearchQueryResponse> call, Response<SearchQueryResponse> response) {
-                Log.d("TELMATE======"," TWEETS "+ call.request().toString() + "  " + response.code()+" "+response.body().toString() );
+SearchQueryResponse searchResponse=response.body();
+                searchTweets= searchResponse.getTweetsSearchQueries();
+for(TweetsSearchQuery tweet:searchTweets){
+    textView1.setText(textView1.getText()+" \n "+tweet.toString());
+    Log.d("TELMATE======",tweet.toString());
+}
+
+                Log.d("TELMATE======"," TWEETS "+ call.request().toString() + "  " + response.code()+" "+searchTweets.size() );
 
             }
 
             @Override
             public void onFailure(Call<SearchQueryResponse> call, Throwable t) {
 
+                Log.d("TELMATE======"," TWEETSFAil "+t.getMessage());
             }
         });
 
