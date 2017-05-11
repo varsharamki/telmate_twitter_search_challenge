@@ -10,18 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="search.twitter.telmatechallenge.view.activities.EnterTwitterSearchActivity">
 
-    <TextView
-        android:id="@+id/text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
 
-    <TextView
-        android:id="@+id/text2"
-        android:layout_below="@id/text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_centerInParent="true"

@@ -16,21 +16,22 @@ import search.twitter.telmatechallenge.model.network.TweetSearchClient;
 import search.twitter.telmatechallenge.model.network.TweetSearchService;
 import search.twitter.telmatechallenge.presenter.interfaces.TwitterSearchQueryPresenter;
 import search.twitter.telmatechallenge.view.interfaces.TwitterAccessTokenView;
+import search.twitter.telmatechallenge.view.interfaces.TwitterSearchResultsView;
 
-/**
- * Created by varsha on 5/11/17.
- */
 
 public class TwitterSeachQueryPresenterImpl implements TwitterSearchQueryPresenter{
 
     Context context;
     private TwitterAccessTokenView view;
     private TwitterSearchModel model;
-
+private TwitterSearchResultsView searchView;
 
     public TwitterSeachQueryPresenterImpl() {
     }
-
+    public TwitterSeachQueryPresenterImpl(Context context, TwitterSearchResultsView searchView) {
+        this.context = context;
+        this.searchView = searchView;
+    }
     public TwitterSeachQueryPresenterImpl(Context context, TwitterAccessTokenView view) {
         this.context = context;
         this.view = view;
@@ -55,20 +56,4 @@ view.getBearerAccessToken(bearerTokenResponse);
 
     }
 
-    @Override
-    public void sendSearchQuery(String query) {
-
-        AuthRequestBuilder authRequestBuilder = new AuthRequestBuilder(context);
-
-        Retrofit retrofit = TweetSearchClient.getRetrofitInstance(AuthConstants.SEARCH_TWEET_BASE_URL).client(authRequestBuilder.buildSearchTweetRequest()).build();
-        TweetSearchService service = retrofit.create(TweetSearchService.class);
-model.searchResultsRequest(query, service, new TwitterSearchModelImpl.OnSearchResultsResponseCallback() {
-    @Override
-    public void onSearchResponse(boolean success, Response<SearchQueryResponse> response) {
-        SearchQueryResponse searchResponse=response.body();
-
-
-    }
-});
-    }
 }

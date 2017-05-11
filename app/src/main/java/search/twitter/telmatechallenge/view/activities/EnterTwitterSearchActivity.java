@@ -37,10 +37,7 @@ import search.twitter.telmatechallenge.view.interfaces.TwitterAccessTokenView;
 public class EnterTwitterSearchActivity extends AppCompatActivity implements TwitterAccessTokenView{
     @InjectView(R.id.activity_enter_twitter_search)
     RelativeLayout layout;
-    @InjectView(R.id.text1)
-    TextView textView;
-    @InjectView(R.id.text2)
-    TextView textView1;
+
     @InjectView(R.id.editText)
     EditText editText;
     @InjectView(R.id.button)
@@ -57,43 +54,18 @@ private TwitterAccessTokenView view;
         saveKeySecret();
         view=this;
         impl=new TwitterSeachQueryPresenterImpl(this,view);
-
-/*
-        AuthRequestBuilder authRequestBuilder = new AuthRequestBuilder(this);
-
-        Retrofit retrofit = TweetSearchClient.getRetrofitInstance(AuthConstants.SEARCH_TWEET_BASE_URL).client(authRequestBuilder.buildSearchTweetRequest()).build();
-        TweetSearchService service = retrofit.create(TweetSearchService.class);
-        Call<SearchQueryResponse> call = service.getSearchQueryResponse(authRequestBuilder.customSearchQueryURL("god",10));
-        call.enqueue(new Callback<SearchQueryResponse>() {
-
-            @Override
-            public void onResponse(Call<SearchQueryResponse> call, Response<SearchQueryResponse> response) {
-SearchQueryResponse searchResponse=response.body();
-
-                Log.d("TELMATE======"," TWEETS "+ call.request().toString() + "  " + response.code()+" "+searchTweets.size() );
-
-            }
-
-            @Override
-            public void onFailure(Call<SearchQueryResponse> call, Throwable t) {
-
-                Log.d("TELMATE======"," TWEETSFAil "+t.getMessage());
-            }
-        });
-*/
-
     }
 
 @OnClick(R.id.button)
 public void buttonClick(){
-    Toast.makeText(getApplicationContext(), " Yahooooooooooooooooooooo ", Toast.LENGTH_LONG).show();
 if(!TextUtils.isEmpty(editText.getText().toString())){
     // need to do more validations on the search term <10 words ?
     if(editText.getText().toString().split(" ").length<=10){
-        impl.sendSearchQuery(editText.getText().toString());
+        Intent intent=new Intent(EnterTwitterSearchActivity.this,DisplayTwitterSearchResultsActivity.class);
+intent.putExtra("QUERY",editText.getText().toString());
+        startActivity(intent);
     }
-    Intent intent=new Intent(EnterTwitterSearchActivity.this,DisplayTwitterSearchResultsActivity.class);
-    startActivity(intent);
+
 }
 }
 
@@ -117,10 +89,8 @@ if(bearerTokenResponse!=null){
                 if (response.code() == 200) {
                     BearerTokenResponse bearerTokenResponse = response.body();
                     if (bearerTokenResponse != null) {
-                        textView.setText(bearerTokenResponse.getToken_type() + " ////// " + bearerTokenResponse.getAccess_token());
-                        saveAccessToken(bearerTokenResponse);
+                         saveAccessToken(bearerTokenResponse);
                     }
-                    Log.d("TELMATE====== ", call.request().toString() + "  " + response.code() + " Resposnse " + bearerTokenResponse.getAccess_token());
 
                 }
 
