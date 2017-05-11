@@ -9,60 +9,60 @@ import android.content.SharedPreferences;
 
 public class AuthenticationPreferences {
 
-private static AuthenticationPreferences authPref;
-   private static final String DEFAULT="default_settings";
+    private static final String DEFAULT = "default_settings";
+    private static AuthenticationPreferences authPref;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor sharedPrefEditor;
 
-    private AuthenticationPreferences(Context context){
-        sharedPref=context.getSharedPreferences(DEFAULT,Context.MODE_PRIVATE);
-        sharedPrefEditor=sharedPref.edit();
+    private AuthenticationPreferences(Context context) {
+        sharedPref = context.getSharedPreferences(DEFAULT, Context.MODE_PRIVATE);
+        sharedPrefEditor = sharedPref.edit();
     }
 
-    public static synchronized AuthenticationPreferences getAuthInstance(Context context){
-        if(authPref==null){
-            authPref=new AuthenticationPreferences(context.getApplicationContext());
+    public static synchronized AuthenticationPreferences getAuthInstance(Context context) {
+        if (authPref == null) {
+            authPref = new AuthenticationPreferences(context.getApplicationContext());
         }
         return authPref;
     }
 
-    public void putAuthString(AuthKey authKey,String val){
-performEdit();
-        sharedPrefEditor.putString(authKey.name(),val);
+    public void putAuthString(AuthKey authKey, String val) {
+        performEdit();
+        sharedPrefEditor.putString(authKey.name(), val);
         performCommit();
     }
 
-    public String getAuthString(AuthKey authKey){
+    public String getAuthString(AuthKey authKey) {
         try {
             if (sharedPref.contains(authKey.name())) {
-return sharedPref.getString(authKey.name(),null);
-            }else{
+                return sharedPref.getString(authKey.name(), null);
+            } else {
                 // need to add the key again ?
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             // need to throw a more specific exepction for not getting shared pref key
 
         }
         return null;
     }
 
-    public void performEdit(){
-        if(sharedPref!=null){
-            sharedPrefEditor=sharedPref.edit();
+    public void performEdit() {
+        if (sharedPref != null) {
+            sharedPrefEditor = sharedPref.edit();
         }
     }
 
-    public void performCommit(){
-        if(sharedPrefEditor!=null){
+    public void performCommit() {
+        if (sharedPrefEditor != null) {
             sharedPrefEditor.commit();
-            sharedPrefEditor=null;
+            sharedPrefEditor = null;
         }
     }
 
-    public void removeAuthKeys(AuthKey... keys){
-    performEdit();
-        for(AuthKey key:keys){
-            if(sharedPrefEditor!=null){
+    public void removeAuthKeys(AuthKey... keys) {
+        performEdit();
+        for (AuthKey key : keys) {
+            if (sharedPrefEditor != null) {
                 sharedPrefEditor.remove(key.name());
             }
         }
@@ -71,13 +71,12 @@ return sharedPref.getString(authKey.name(),null);
     }
 
 
-
-public enum AuthKey{
-    CONSUMER_KEY,
-    CONSUMER_SECRET,
-    BEARER_TOKEN,
-    BEARER_TOKEN_TYPE
-}
+    public enum AuthKey {
+        CONSUMER_KEY,
+        CONSUMER_SECRET,
+        BEARER_TOKEN,
+        BEARER_TOKEN_TYPE
+    }
 
 }
 
