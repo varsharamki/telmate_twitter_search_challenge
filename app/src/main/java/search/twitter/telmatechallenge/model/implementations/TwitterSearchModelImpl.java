@@ -12,11 +12,10 @@ import retrofit2.Response;
 import search.twitter.telmatechallenge.model.auth.AuthConstants;
 import search.twitter.telmatechallenge.model.data.BearerTokenResponse;
 import search.twitter.telmatechallenge.model.data.SearchQueryResponse;
-import search.twitter.telmatechallenge.model.data.TweetsSearchQuery;
 import search.twitter.telmatechallenge.model.interfaces.TwitterSearchModel;
 import search.twitter.telmatechallenge.model.network.TweetSearchService;
 
-public class TwitterSearchModelImpl implements TwitterSearchModel{
+public class TwitterSearchModelImpl implements TwitterSearchModel {
 
     public TwitterSearchModelImpl() {
     }
@@ -28,8 +27,7 @@ public class TwitterSearchModelImpl implements TwitterSearchModel{
             @Override
             public void onResponse(Call<BearerTokenResponse> call, Response<BearerTokenResponse> response) {
                 if (response.code() == 200) {
-                  callback.onJSONResponse(true,response);
-                    Log.d("TELMATE====== ", call.request().toString() + "  " + response.code() + " Resposnse ");
+                    callback.onJSONResponse(true, response);
 
                 }
 
@@ -37,7 +35,7 @@ public class TwitterSearchModelImpl implements TwitterSearchModel{
 
             @Override
             public void onFailure(Call<BearerTokenResponse> call, Throwable t) {
-                callback.onJSONResponse(false,null);
+                callback.onJSONResponse(false, null);
 
             }
         });
@@ -45,30 +43,28 @@ public class TwitterSearchModelImpl implements TwitterSearchModel{
 
     @Override
     public void searchResultsRequest(String query, TweetSearchService service, final OnSearchResultsResponseCallback callback) {
-        Call<SearchQueryResponse> call = service.getSearchQueryResponse(customSearchQueryURL(query,10));
+        Call<SearchQueryResponse> call = service.getSearchQueryResponse(customSearchQueryURL(query, 10));
         call.enqueue(new Callback<SearchQueryResponse>() {
 
             @Override
             public void onResponse(Call<SearchQueryResponse> call, Response<SearchQueryResponse> response) {
-                callback.onSearchResponse(true,response);
-                Log.d("TELMATE======"," TWEETS "+ call.request().toString() + "  " + response.code());
+                callback.onSearchResponse(true, response);
 
             }
 
             @Override
             public void onFailure(Call<SearchQueryResponse> call, Throwable t) {
-callback.onSearchResponse(false,null);
-                Log.d("TELMATE======"," TWEETSFAil "+t.getMessage());
+                callback.onSearchResponse(false, null);
             }
         });
 
     }
 
-    public String customSearchQueryURL(String query,int count) {
+    public String customSearchQueryURL(String query, int count) {
         String url = "";
 
         try {
-            url = String.format(Locale.ENGLISH,"%s?q=%s&result_type=mixed&count=%d",
+            url = String.format(Locale.ENGLISH, "%s?q=%s&result_type=mixed&count=%d",
                     AuthConstants.TWEETS,
                     URLEncoder.encode(query, "UTF-8"),
                     count
@@ -81,11 +77,12 @@ callback.onSearchResponse(false,null);
 
         return url;
     }
+
     public interface OnJSONResponseCallback {
         public void onJSONResponse(boolean success, Response<BearerTokenResponse> response);
     }
 
-    public interface OnSearchResultsResponseCallback{
+    public interface OnSearchResultsResponseCallback {
         public void onSearchResponse(boolean success, Response<SearchQueryResponse> response);
     }
 }

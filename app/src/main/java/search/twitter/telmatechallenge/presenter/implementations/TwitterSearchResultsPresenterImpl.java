@@ -12,14 +12,13 @@ import search.twitter.telmatechallenge.model.interfaces.TwitterSearchModel;
 import search.twitter.telmatechallenge.model.network.TweetSearchClient;
 import search.twitter.telmatechallenge.model.network.TweetSearchService;
 import search.twitter.telmatechallenge.presenter.interfaces.TwitterSearchResultsPresenter;
-import search.twitter.telmatechallenge.view.interfaces.TwitterAccessTokenView;
 import search.twitter.telmatechallenge.view.interfaces.TwitterSearchResultsView;
 
 /**
  * Created by varsha on 5/11/17.
  */
 
-public class TwitterSearchResultsPresenterImpl implements TwitterSearchResultsPresenter{
+public class TwitterSearchResultsPresenterImpl implements TwitterSearchResultsPresenter {
 
     Context context;
     private TwitterSearchModel model;
@@ -27,6 +26,7 @@ public class TwitterSearchResultsPresenterImpl implements TwitterSearchResultsPr
 
     public TwitterSearchResultsPresenterImpl() {
     }
+
     public TwitterSearchResultsPresenterImpl(Context context, TwitterSearchResultsView searchView) {
         this.context = context;
         this.searchView = searchView;
@@ -45,12 +45,12 @@ public class TwitterSearchResultsPresenterImpl implements TwitterSearchResultsPr
 
         Retrofit retrofit = TweetSearchClient.getRetrofitInstance(AuthConstants.SEARCH_TWEET_BASE_URL).client(authRequestBuilder.buildSearchTweetRequest()).build();
         TweetSearchService service = retrofit.create(TweetSearchService.class);
-        model=new TwitterSearchModelImpl();
+        model = new TwitterSearchModelImpl();
 
         model.searchResultsRequest(query, service, new TwitterSearchModelImpl.OnSearchResultsResponseCallback() {
             @Override
             public void onSearchResponse(boolean success, Response<SearchQueryResponse> response) {
-                SearchQueryResponse searchResponse=response.body();
+                SearchQueryResponse searchResponse = response.body();
 
                 searchView.getSearchResults(searchResponse);
             }

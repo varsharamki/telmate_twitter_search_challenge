@@ -8,32 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Protocol;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import search.twitter.telmatechallenge.R;
 import search.twitter.telmatechallenge.model.data.TweetsSearchQuery;
 
-public class TwitterSearchResultsAdapter extends RecyclerView.Adapter<TwitterSearchResultsAdapter.SearchResultViewHolder>{
-Context context ;
-    ArrayList<TweetsSearchQuery> tweetsSearchQueries=new ArrayList<>();
+public class TwitterSearchResultsAdapter extends RecyclerView.Adapter<TwitterSearchResultsAdapter.SearchResultViewHolder> {
+    Context context;
+    ArrayList<TweetsSearchQuery> tweetsSearchQueries = new ArrayList<>();
 
-    public TwitterSearchResultsAdapter(Context context, ArrayList<TweetsSearchQuery> tweetsSearchQueries){
-        this.context=context;
-        this.tweetsSearchQueries=tweetsSearchQueries;
- //   preFetchImages();
+    public TwitterSearchResultsAdapter(Context context, ArrayList<TweetsSearchQuery> tweetsSearchQueries) {
+        this.context = context;
+        this.tweetsSearchQueries = tweetsSearchQueries;
+        //   preFetchImages();
     }
 
     @Override
@@ -44,21 +39,21 @@ Context context ;
 
     @Override
     public void onBindViewHolder(SearchResultViewHolder holder, int position) {
-TweetsSearchQuery tweets = tweetsSearchQueries.get(position);
-        String imageUrl="";
-        if(!TextUtils.isEmpty(tweets.getUser().getProfileImageUrlHttps())){
-            imageUrl=tweets.getUser().getProfileImageUrlHttps();
-        }else if(!TextUtils.isEmpty(tweets.getUser().getProfileImageUrl())){
-            imageUrl=tweets.getUser().getProfileImageUrl();
-        }else if(!TextUtils.isEmpty(tweets.getUser().getProfileBackgroundImageUrlHttps())){
-            imageUrl=tweets.getUser().getProfileBackgroundImageUrlHttps();
-        }else if(!TextUtils.isEmpty(tweets.getUser().getProfileBackgroundImageUrl())){
-            imageUrl=tweets.getUser().getProfileBackgroundImageUrl();
+        TweetsSearchQuery tweets = tweetsSearchQueries.get(position);
+        String imageUrl = "";
+        if (!TextUtils.isEmpty(tweets.getUser().getProfileImageUrlHttps())) {
+            imageUrl = tweets.getUser().getProfileImageUrlHttps();
+        } else if (!TextUtils.isEmpty(tweets.getUser().getProfileImageUrl())) {
+            imageUrl = tweets.getUser().getProfileImageUrl();
+        } else if (!TextUtils.isEmpty(tweets.getUser().getProfileBackgroundImageUrlHttps())) {
+            imageUrl = tweets.getUser().getProfileBackgroundImageUrlHttps();
+        } else if (!TextUtils.isEmpty(tweets.getUser().getProfileBackgroundImageUrl())) {
+            imageUrl = tweets.getUser().getProfileBackgroundImageUrl();
         }
         holder.titleTxt.setText(tweets.getUser().getName());
-holder.descriptionTxt.setText(tweets.getUser().getDescription());
-holder.urlTxt.setText(Long.toString(tweets.getRetweetCount()));
-    holder.idTxt.setText(tweets.getUser().getScreenName());
+        holder.descriptionTxt.setText(tweets.getUser().getDescription());
+        holder.urlTxt.setText(Long.toString(tweets.getRetweetCount()));
+        holder.idTxt.setText(tweets.getUser().getScreenName());
         holder.ownerLoginTxt.setText(tweets.getUser().getTimeZone());
         holder.nameTxt.setText(tweets.getText());
         holder.languageTxt.setText(tweets.getUser().getLang());
@@ -75,8 +70,8 @@ holder.urlTxt.setText(Long.toString(tweets.getRetweetCount()));
             }
         });
         holder.updatedAtTxt.setText(tweets.getUser().getScreenName());
-                holder.createdAtTxt.setText(tweets.getUser().getCreatedAt());
-                        holder.pushedAtTxt.setText(tweets.getUser().getLocation());
+        holder.createdAtTxt.setText(tweets.getUser().getCreatedAt());
+        holder.pushedAtTxt.setText(tweets.getUser().getLocation());
     }
 
     @Override
@@ -84,7 +79,7 @@ holder.urlTxt.setText(Long.toString(tweets.getRetweetCount()));
         return tweetsSearchQueries.size();
     }
 
-    public class SearchResultViewHolder extends RecyclerView.ViewHolder{
+    public class SearchResultViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.title_txt)
         TextView titleTxt;
@@ -105,6 +100,7 @@ holder.urlTxt.setText(Long.toString(tweets.getRetweetCount()));
         TextView updatedAtTxt;
         TextView createdAtTxt;
         TextView pushedAtTxt;
+
         public SearchResultViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();

@@ -7,7 +7,6 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Locale;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -83,7 +82,7 @@ public class AuthRequestBuilder {
 
     }
 
-    public OkHttpClient buildSearchTweetRequest(){
+    public OkHttpClient buildSearchTweetRequest() {
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.addInterceptor(new Interceptor() {
             @Override
@@ -95,14 +94,13 @@ public class AuthRequestBuilder {
                         .header(AuthConstants.HEADER_CONTENT_TYPE, AuthConstants.HEADER_CONTENT_JSON)
                         .method(request.method(), request.body())
                         .build();
-                Log.d("TELMATE====== ", "SearchRequest " +AuthenticationPreferences.getAuthInstance(context).getAuthString(AuthenticationPreferences.AuthKey.BEARER_TOKEN)+"  "+
-                AuthConstants.HEADER_CONTENT_JSON);
+                Log.d("TELMATE====== ", "SearchRequest " + AuthenticationPreferences.getAuthInstance(context).getAuthString(AuthenticationPreferences.AuthKey.BEARER_TOKEN) + "  " +
+                        AuthConstants.HEADER_CONTENT_JSON);
                 return chain.proceed(wtHeader);
             }
         });
         return httpClientBuilder.build();
     }
-
 
 
 }

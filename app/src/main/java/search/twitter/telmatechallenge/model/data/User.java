@@ -428,6 +428,10 @@ public class User {
         return screenName;
     }
 
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -470,10 +474,6 @@ public class User {
                 ", showAllInlineMedia=" + showAllInlineMedia +
                 ", screenName='" + screenName + '\'' +
                 '}';
-    }
-
-    public void setScreenName(String screenName) {
-        this.screenName = screenName;
     }
 
 }

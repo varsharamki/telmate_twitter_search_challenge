@@ -8,9 +8,9 @@ public class AuthConstants {
     public final static String CONSUMER_KEY = "iqL2N234oaqcwKPDuj8gbjXyZ";
     public final static String CONSUMER_SECRET = "afGzyjVEy67rXWeC6RECr50DixQ4XJQpHrg5hdnbRaKB7o4HEo";
     public final static String AUTH_BEARER_TOKEN_BASE_URL = "https://api.twitter.com/oauth2/";
-    public final static String TOKEN="token";
+    public final static String TOKEN = "token";
     public final static String SEARCH_TWEET_BASE_URL = "https://api.twitter.com/1.1/search/";
-    public final static String TWEETS="tweets.json";
+    public final static String TWEETS = "tweets.json";
     public final static String APP_RATE_LIMIT_STATUS = "https://api.twitter.com/1.1/application/rate_limit_status.json";
 
     ///// Header Builders

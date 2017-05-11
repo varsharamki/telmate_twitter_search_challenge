@@ -9,6 +9,7 @@ import search.twitter.telmatechallenge.model.network.TweetSearchService;
 
 public interface TwitterSearchModel {
 
-void accessTokenRequest(TweetSearchService service, TwitterSearchModelImpl.OnJSONResponseCallback callback);
-void searchResultsRequest(String query,TweetSearchService service, TwitterSearchModelImpl.OnSearchResultsResponseCallback callback);
+    void accessTokenRequest(TweetSearchService service, TwitterSearchModelImpl.OnJSONResponseCallback callback);
+
+    void searchResultsRequest(String query, TweetSearchService service, TwitterSearchModelImpl.OnSearchResultsResponseCallback callback);
 }
