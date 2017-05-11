@@ -16,6 +16,7 @@ private static AuthenticationPreferences authPref;
 
     private AuthenticationPreferences(Context context){
         sharedPref=context.getSharedPreferences(DEFAULT,Context.MODE_PRIVATE);
+        sharedPrefEditor=sharedPref.edit();
     }
 
     public static synchronized AuthenticationPreferences getAuthInstance(Context context){
@@ -46,7 +47,7 @@ return sharedPref.getString(authKey.name(),null);
     }
 
     public void performEdit(){
-        if(sharedPrefEditor!=null){
+        if(sharedPref!=null){
             sharedPrefEditor=sharedPref.edit();
         }
     }
@@ -74,7 +75,8 @@ return sharedPref.getString(authKey.name(),null);
 public enum AuthKey{
     CONSUMER_KEY,
     CONSUMER_SECRET,
-    BEARER_TOKEN
+    BEARER_TOKEN,
+    BEARER_TOKEN_TYPE
 }
 
 }
