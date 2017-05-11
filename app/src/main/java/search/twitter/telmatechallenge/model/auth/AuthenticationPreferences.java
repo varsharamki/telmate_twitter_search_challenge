@@ -71,7 +71,7 @@ return sharedPref.getString(authKey.name(),null);
 
 
 
-private enum AuthKey{
+public enum AuthKey{
     CONSUMER_KEY,
     CONSUMER_SECRET,
     BEARER_TOKEN
